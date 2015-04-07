@@ -1,0 +1,19 @@
+<% if (props.includeBootstrap) { %>$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+<% if (props.includeFontAwesome) { %>$fa-font-path: "../bower_components/font-awesome/fonts"; <% } %>
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
+<% if (props.includeFontAwesome) { %>@import "font-awesome/scss/font-awesome.scss"; <% } %>
+// endbower
+
+h1{
+	font-size: 11px;
+}
+
+<% } else { %>// bower:scss
+// endbower
+
+h1{
+	font-size: 14px;
+}
+
+<% } %>

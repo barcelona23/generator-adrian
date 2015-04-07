@@ -1,0 +1,55 @@
+{
+  "name": "generator-adrian",
+  "version": "1.0.0",
+  "description": "Fully customizable Web App generator",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": {
+    "type" : "git",
+    "url" : "barcelona23/generator-adrian"
+  },  
+  "author": {
+    "name": "Adrian Rodriguez",
+    "email": "me@adriancr.com",
+    "url": "https://github.com/barcelona23"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
+  "main": "app/index.js",
+  "keywords": [
+    "yeoman-generator",
+    "web",
+    "app",
+    "front-end",
+    "h5bp",
+    "bootstrap",
+    "semantic-ui",
+    "fundation",
+    "modernizr",
+    "jquery",
+    "jquery-validation",
+    "grunt",
+    "font-awesome"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.18.9",
+    "chalk": "^1.0.0",
+    "yosay": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "underscore": "^1.6.0"
+  },
+  "peerDependencies": {
+    "yo": ">=1.2.0",
+    "generator-mocha": ">=0.1.0"
+  }
+}
