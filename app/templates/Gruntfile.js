@@ -77,11 +77,19 @@ module.exports = function (grunt) {
       }
     },
 
+    //your other configurations here
+    open: {
+      dev: {
+        url: 'http://localhost:<%= connect.options.port %>',
+        app: 'Google Chrome'
+      }
+    },
+
     // The actual grunt server settings
     connect: {
       options: {
         port: 2323,
-        open: true,
+        open: false, // set to false to prevent opening default browser
         livereload: 35729,
         // Change this to '0.0.0.0' to access the server from outside
         hostname: 'localhost'
@@ -440,9 +448,25 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin'
       ]
+    },
+
+    //https://github.com/zonak/grunt-ftp-deploy
+    'ftp-deploy': {
+      build: {
+        auth: {
+          host: 'server.com',
+          port: 21,
+          authKey: 'key1'
+        },
+        src: 'path/to/source/folder',
+        dest: '/path/to/destination/folder',
+        exclusions: ['path/to/source/folder/**/.DS_Store', 'path/to/source/folder/**/Thumbs.db', 'path/to/dist/tmp']
+      }
     }
+
   });
 
+  grunt.loadNpmTasks('grunt-ftp-deploy');
 
   grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
@@ -458,6 +482,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'open:dev', //open chrome instead of default browser
       'watch'
     ]);
   });
