@@ -238,6 +238,13 @@ module.exports = yeoman.generators.Base.extend({
       );
     },
 
+    ftp : function () {
+      this.fs.copy(
+        this.templatePath('ftpauth'),
+        this.destinationPath('.ftpauth')
+      );
+    },
+
     projectfiles : function () {
 
       this.template('Gruntfile.js');

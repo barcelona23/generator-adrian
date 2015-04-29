@@ -1,0 +1,10 @@
+{
+    "serverA":{
+        "username":"",
+        "password":""
+    },
+    "serverB":{
+        "username":"",
+        "password":""
+    }
+}
