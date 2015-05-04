@@ -445,26 +445,41 @@ module.exports = function (grunt) {
 		},
 
 		ftp_push: {
-    		your_target: {
-      		options: {
-        			authKey: 'serverA',
-        			host: '',
-        			dest: '/public_html/',
-        			port: 21
-      		},
-      		files: [{
-          		expand: true,
-          		cwd: '.',
-          		src: [
-            		'dist/**'
-          		]
-        		}]
-    		}
-  		}
+	    		your_target: {
+	      		options: {
+	        			authKey: 'serverA',
+	        			host: '',
+	        			dest: '/public_html/',
+	        			port: 21
+	      		},
+	      		files: [{
+	          		expand: true,
+	          		cwd: '.',
+	          		src: [
+	            		'dist/**'
+	          		]
+	        		}]
+	    		}
+  		},
+
+  		criticalcss: {
+		    	custom: {
+		      	options: {
+		        		url: "http://localhost:2323",
+		                	width: 1200,
+		                	height: 900,
+		                	outputfile: "dist/critical.css",
+		                	filename: "/path/to/local/all.css", // Using path.resolve( path.join( ... ) ) is a good idea here
+		                	buffer: 800*1024,
+		                	ignoreConsole: false
+		      	}
+		    	}
+		}
 
 	});
 
 	grunt.loadNpmTasks('grunt-ftp-push');
+	grunt.loadNpmTasks('grunt-criticalcss');
 
 	grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
 		if (grunt.option('allow-remote')) {
