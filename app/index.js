@@ -42,7 +42,7 @@ module.exports = yeoman.generators.Base.extend({
       type: 'input',
       name: 'appName',
       message: 'What is App Name Project?',
-      default: 'barcelona App'
+      default: 'barcelona-App'
     },{
       type    : 'checkbox',
       name    : 'stylesfeatures',
