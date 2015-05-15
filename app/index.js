@@ -5,29 +5,29 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
-  initializing: function () {
-    //yeoman.generators.Base.apply(this, arguments);
-    //initializing to constructor
+  	initializing: function () {
+   	//yeoman.generators.Base.apply(this, arguments);
+    	//initializing to constructor
 
-    // setup the test-framework property, Gruntfile template will need this
-    this.option('test-framework', {
-      desc: 'Test framework to be invoked',
-      type: String,
-      defaults: 'mocha'
-    });
-    this.testFramework = this.options['test-framework'];
+    	// setup the test-framework property, Gruntfile template will need this
+    	this.option('test-framework', {
+      	desc: 'Test framework to be invoked',
+      	type: String,
+      	defaults: 'mocha'
+    	});
+    	this.testFramework = this.options['test-framework'];
 
-    this.option('coffee', {
-      desc: 'Use CoffeeScript',
-      type: Boolean,
-      defaults: false
-    });
-    this.coffee = this.options.coffee;
+    	this.option('coffee', {
+      	desc: 'Use CoffeeScript',
+      	type: Boolean,
+      	defaults: false
+    	});
+    	this.coffee = this.options.coffee;
 
-    this.pkg = require('../package.json');
-  },
+    	this.pkg = require('../package.json');
+  	},
 
-  prompting: function () {
+  	prompting: function () {
     var done = this.async();
 
     this.log(yosay());
@@ -110,164 +110,172 @@ module.exports = yeoman.generators.Base.extend({
 
       done();
     }.bind(this));
-  },
+  	},
 
-  createFolders: function(){
-    this.directory('app');
-    this.mkdir('app/styles');
-    this.mkdir('app/scripts');
-    this.mkdir('app/images');
-  },
+  	createFolders: function(){
+    	this.directory('app');
+    	this.mkdir('app/styles');
+    	if(this.includeSass){
+    		this.fs.copy(
+	        	this.templatePath('_scss'),
+	        	this.destinationPath('app/styles')
+	      );
+    	}
+    	this.mkdir('app/scripts');
+    	this.mkdir('app/images');
+  	},
 
-  writing: {
-    app : function () {
-      this.fs.copyTpl(
-        this.templatePath('_index.html'),
-        this.destinationPath('app/index.html'),
-        { props: this }
-      );
-      this.fs.copyTpl(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json'),
-        { props: this }
-      );
-    },
+	writing: {
+		app : function () {
+      	this.fs.copyTpl(
+        		this.templatePath('_index.html'),
+        		this.destinationPath('app/index.html'),
+        		{ props: this }
+      	);
+      	this.fs.copyTpl(
+        		this.templatePath('_package.json'),
+        		this.destinationPath('package.json'),
+        		{ props: this }
+      	);
+    	},
 
-    bower : function(){
-      var bower = {
-        name         : this._.slugify(this.appName),
-        private      : true,
-        version      : '1.0.0',
-        dependencies : {},
-        overrides    : {}
-      };
+	   bower : function(){
+	   	var bower = {
+	        	name         : this._.slugify(this.appName),
+	        	private      : true,
+	        	version      : '1.0.0',
+	        	dependencies : {},
+	        	overrides    : {}
+	      };
 
-      //css
-      var bs = '';
-      if (this.includeBootstrap) {
-        bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
-        bower.dependencies[bs] = '~3.3.4';
-      } 
-      if (this.includeFundation) { bower.dependencies.foundation = '~5.5.1'; }
-      if (this.includeSemantic) { bower.dependencies['semantic-ui'] = '~1.11.6'; }
+	      //css
+	      var bs = '';
+	      if (this.includeBootstrap) {
+	        	bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
+	        	bower.dependencies[bs] = '~3.3.4';
+	      } 
+	      if (this.includeFundation) { bower.dependencies.foundation = '~5.5.1'; }
+	      if (this.includeSemantic) { bower.dependencies['semantic-ui'] = '~1.11.6'; }
 
-      if(!this.includeBootstrap && !this.includeFundation && !this.includeSemantic) {
-        bower.dependencies['normalize-css'] = '~3.0.3';
-      }
+	      if(!this.includeBootstrap && !this.includeFundation && !this.includeSemantic && !this.includeSass) {
+	        	bower.dependencies['normalize-css'] = '~3.0.3';
+	      }
 
-      //javascripts
-      if (this.includeJqueryValidation) { bower.dependencies['jquery-validation'] = '~1.13.1'; }
+	      //javascripts
+	      if (this.includeJqueryValidation) { bower.dependencies['jquery-validation'] = '~1.13.1'; }
 
-      //extras
-      if (this.includeModernizr) { bower.dependencies.modernizr = '~2.8.2'; }
-      if (this.includeFontAwesome) { bower.dependencies['font-awesome'] = '~4.3.0'; }
+	      //extras
+	      if (this.includeModernizr) { bower.dependencies.modernizr = '~2.8.2'; }
+	      if (this.includeFontAwesome) { bower.dependencies['font-awesome'] = '~4.3.0'; }
 
-      //overrides
-      if (this.includeBootstrap && this.includeSass) {
-        bower.overrides[bs] = {
-          'main': [
-            'assets/stylesheets/_bootstrap.scss',
-            'assets/fonts/bootstrap/glyphicons-halflings-regular.eot',
-            'assets/fonts/bootstrap/glyphicons-halflings-regular.svg',
-            'assets/fonts/bootstrap/glyphicons-halflings-regular.ttf',
-            'assets/fonts/bootstrap/glyphicons-halflings-regular.woff',
-            'assets/javascripts/bootstrap/affix.js',
-            'assets/javascripts/bootstrap/alert.js',
-            'assets/javascripts/bootstrap/button.js',
-            'assets/javascripts/bootstrap/carousel.js',
-            'assets/javascripts/bootstrap/collapse.js',
-            'assets/javascripts/bootstrap/dropdown.js',
-            'assets/javascripts/bootstrap/tab.js',
-            'assets/javascripts/bootstrap/transition.js',
-            'assets/javascripts/bootstrap/scrollspy.js',
-            'assets/javascripts/bootstrap/modal.js',
-            'assets/javascripts/bootstrap/tooltip.js',
-            'assets/javascripts/bootstrap/popover.js'
-          ],
-        };
-      }    
+	      //overrides
+	      if (this.includeBootstrap && this.includeSass) {
+	        	bower.overrides[bs] = {
+	          	'main': [
+	            	'assets/stylesheets/_bootstrap.scss',
+	            	'assets/fonts/bootstrap/glyphicons-halflings-regular.eot',
+	            	'assets/fonts/bootstrap/glyphicons-halflings-regular.svg',
+	            	'assets/fonts/bootstrap/glyphicons-halflings-regular.ttf',
+	            	'assets/fonts/bootstrap/glyphicons-halflings-regular.woff',
+	            	'assets/javascripts/bootstrap/affix.js',
+	            	'assets/javascripts/bootstrap/alert.js',
+	            	'assets/javascripts/bootstrap/button.js',
+	            	'assets/javascripts/bootstrap/carousel.js',
+	            	'assets/javascripts/bootstrap/collapse.js',
+	            	'assets/javascripts/bootstrap/dropdown.js',
+	            	'assets/javascripts/bootstrap/tab.js',
+	            	'assets/javascripts/bootstrap/transition.js',
+	            	'assets/javascripts/bootstrap/scrollspy.js',
+	            	'assets/javascripts/bootstrap/modal.js',
+	            	'assets/javascripts/bootstrap/tooltip.js',
+	            	'assets/javascripts/bootstrap/popover.js'
+	          	],
+	        	};
+	      }    
 
-      if (this.includeFontAwesome && this.includeSass) {
-        bower.overrides['font-awesome'] = {
-          'main': [
-            './css/font-awesome.css',
-            './scss/font-awesome.scss',
-            './fonts/*'
-          ],
-        };
-      }  
+	      if (this.includeFontAwesome && this.includeSass) {
+	        	bower.overrides['font-awesome'] = {
+	          	'main': [
+	            	'./css/font-awesome.css',
+	            	'./scss/font-awesome.scss',
+	            	'./fonts/*'
+	          	],
+	        	};
+	      } 
 
-      this.fs.copy(
-        this.templatePath('bowerrc'),
-        this.destinationPath('.bowerrc')
-      );
-      this.write('bower.json', JSON.stringify(bower, null, 2));
-    },
+	      bower.dependencies['jquery']  = '*';
 
-    mainStylesheet : function () {
-      var css = 'main.' + (this.includeSass ? 's' : '') + 'css';
-      this.fs.copyTpl(
-        this.templatePath('_styles/_' + css),
-        this.destinationPath('app/styles/' + css),
-        { props: this }
-      );
-    },
+	      this.fs.copy(
+	        	this.templatePath('bowerrc'),
+	        	this.destinationPath('.bowerrc')
+	      );
+	      this.write('bower.json', JSON.stringify(bower, null, 2));
+	   },
 
-    mainScripts : function () {
-      this.fs.copyTpl(
-        this.templatePath('_scripts/_main.js'),
-        this.destinationPath('app/scripts/main.js'),
-        { props: this }
-      );
-      this.fs.copyTpl(
-        this.templatePath('_scripts/_plugins.js'),
-        this.destinationPath('app/scripts/plugins.js'),
-        { props: this }
-      );
-    },
+	   mainStylesheet : function () {
+	      var css = 'main.' + (this.includeSass ? 's' : '') + 'css';
+	      this.fs.copyTpl(
+	        	this.templatePath('_styles/_' + css),
+	        	this.destinationPath('app/styles/' + css),
+	        	{ props: this }
+	      );
+	   },
 
-    git : function () {
-      this.fs.copy(
-        this.templatePath('gitattributes'),
-        this.destinationPath('.gitattributes')
-      );
-      this.fs.copyTpl(
-        this.templatePath('gitignore'),
-        this.destinationPath('.gitignore'),
-        { props: this }
-      );
-    },
+	   mainScripts : function () {
+	      this.fs.copyTpl(
+	        this.templatePath('_scripts/_main.js'),
+	        this.destinationPath('app/scripts/main.js'),
+	        { props: this }
+	      );
+	      this.fs.copyTpl(
+	        this.templatePath('_scripts/_plugins.js'),
+	        this.destinationPath('app/scripts/plugins.js'),
+	        { props: this }
+	      );
+	   },
 
-    ftp : function () {
-      this.fs.copy(
-        this.templatePath('ftpauth'),
-        this.destinationPath('.ftpauth')
-      );
-    },
+	   git : function () {
+	      this.fs.copy(
+	        this.templatePath('gitattributes'),
+	        this.destinationPath('.gitattributes')
+	      );
+	      this.fs.copyTpl(
+	        this.templatePath('gitignore'),
+	        this.destinationPath('.gitignore'),
+	        { props: this }
+	      );
+	   },
 
-    projectfiles : function () {
+	   ftp : function () {
+	      this.fs.copy(
+	        this.templatePath('ftpauth'),
+	        this.destinationPath('.ftpauth')
+	      );
+	   },
 
-      this.template('Gruntfile.js');
+	   projectfiles : function () {
 
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
-      );
-      this.fs.copy(
-        this.templatePath('htaccess'),
-        this.destinationPath('.htaccess')
-      );
-    }
-  },
+	      this.template('Gruntfile.js');
 
-  install : function () {
-    this.installDependencies({
-      skipInstall: this.options['skip-install']
-    });
-  }
+	      this.fs.copy(
+	        this.templatePath('editorconfig'),
+	        this.destinationPath('.editorconfig')
+	      );
+	      this.fs.copy(
+	        this.templatePath('jshintrc'),
+	        this.destinationPath('.jshintrc')
+	      );
+	      this.fs.copy(
+	        this.templatePath('htaccess'),
+	        this.destinationPath('.htaccess')
+	      );
+	   }
+   },
+
+	install : function () {
+	   this.installDependencies({
+	      skipInstall: this.options['skip-install']
+	   });
+	}
 
 });

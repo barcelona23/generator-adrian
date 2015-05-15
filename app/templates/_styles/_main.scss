@@ -1,19 +1,24 @@
-<% if (props.includeBootstrap) { %>$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-<% if (props.includeFontAwesome) { %>$fa-font-path: "../bower_components/font-awesome/fonts"; <% } %>
+// Variables & Mixins
+@import 'mixins/_mixins.scss';
+@import 'modules/_variables.scss';
+<% if (!props.includeBootstrap && props.includeSass) { %>@import 'modules/_normalize.scss';<% } %>
+
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
+<% if (props.includeBootstrap) { %>@import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";<% } %>
 <% if (props.includeFontAwesome) { %>@import "font-awesome/scss/font-awesome.scss"; <% } %>
 // endbower
 
-h1{
-	font-size: 11px;
-}
+// Modules
+@import 'modules/_typography.scss';
+@import 'modules/_base.scss';
+@import 'modules/_layout.scss';
 
-<% } else { %>// bower:scss
-// endbower
+// Estructure
+@import 'partials/_header.scss';
+@import 'partials/_nav.scss';
+@import 'partials/_sidebar.scss';
+@import 'partials/_main.scss';
+@import 'partials/_footer.scss';
 
-h1{
-	font-size: 14px;
-}
-
-<% } %>
+// Break Points
+@import 'modules/_breakpoints.scss';

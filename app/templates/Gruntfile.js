@@ -480,6 +480,7 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-ftp-push');
 	grunt.loadNpmTasks('grunt-criticalcss');
+	grunt.loadNpmTasks('grunt-notify'); //https://github.com/dylang/grunt-notify
 
 	grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
 		if (grunt.option('allow-remote')) {
