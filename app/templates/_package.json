@@ -1,5 +1,5 @@
 {
-  "name": "<%= _.slugify(props.appName) %>",
+  "name": "<%= props.appName %>",
   "devDependencies": {
     "apache-server-configs": "^2.7.1",
     "grunt": "^0.4.5",
