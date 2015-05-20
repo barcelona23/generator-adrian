@@ -1,8 +1,10 @@
 if (typeof jQuery !== 'undefined') {
   (function($) {
-    'use strict';
+   	'use strict';
 
-    console.log('YOUR CODE HERE');
+    	$('html');
+
+    	console.log('YOUR CODE HERE');
 
   })(jQuery);
 }    

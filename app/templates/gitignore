@@ -3,3 +3,9 @@ dist
 .tmp<% if (props.includeSass) { %>
 .sass-cache<% } %>
 bower_components
+.idea/
+.DS_Store
+.iml
+.ipr
+.log
+assets/
