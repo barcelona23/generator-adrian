@@ -466,11 +466,11 @@ module.exports = function (grunt) {
   		criticalcss: {
 		    	custom: {
 		      	options: {
-		        		url: "http://localhost:2323",
+		        		url: 'http://localhost:2323',
 		                	width: 1200,
 		                	height: 900,
-		                	outputfile: "dist/critical.css",
-		                	filename: "/path/to/local/all.css", // Using path.resolve( path.join( ... ) ) is a good idea here
+		                	outputfile: 'dist/critical.css',
+		                	filename: '/path/to/local/all.css', // Using path.resolve( path.join( ... ) ) is a good idea here
 		                	buffer: 800*1024,
 		                	ignoreConsole: false
 		      	}
@@ -481,6 +481,7 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-ftp-push');
 	grunt.loadNpmTasks('grunt-criticalcss');
+	grunt.loadNpmTasks('grunt-notify'); //https://github.com/dylang/grunt-notify
 
 	grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
 		if (grunt.option('allow-remote')) {
