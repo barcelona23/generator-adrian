@@ -22,13 +22,6 @@
   @return ($target/$vw-context) * 1vw;
 }
 
-//html {  font-size: 100%;  }
-//@include font-size(16);
-@mixin font-size($size) {
-   font-size: $size + px;
-   font-size: ($size/16) + rem;
-}
-
 @mixin image-2x($image, $width, $height) {
   @media (min--moz-device-pixel-ratio: 1.3),
   (-o-min-device-pixel-ratio: 2.6/2),
@@ -39,4 +32,55 @@
     background-image: url($image);
     background-size: $width $height;
   }
+}
+
+//FONT-SIZE
+//html {  font-size: 100%;  }
+//USAGE @include font-size(14px)
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+//BREAKPOINTS
+// USAGE
+// .sidebar {
+//   width: 60%;
+//   float: left;
+//   margin: 0 2% 0 0;
+//   @include bp-small {
+//     width: 100%;
+//     float: none;
+//     margin: 0;
+//   }
+// }
+@mixin bp-large {
+  @media only screen and (max-width: 60em) {
+    @content;
+  }
+}
+
+@mixin bp-medium {
+  @media only screen and (max-width: 40em) {
+    @content;
+  }
+}
+
+@mixin bp-small {
+  @media only screen and (max-width: 30em) {
+    @content;
+  }
+}
+
+//OPACITY
+//USAGE @include opacity(0.8);
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
 }
